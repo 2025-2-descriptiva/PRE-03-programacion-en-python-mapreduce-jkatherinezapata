@@ -6,7 +6,7 @@ import string
 import time
 
 
-def clear_input_directory(input_dir):
+def prepare_input_directory(input_dir):
     if not os.path.exists(input_dir):
         os.makedirs(input_dir)
     else:
@@ -97,8 +97,14 @@ def run_experiment(n):
     input_dir = "files/input/"
     output_dir = "files/output/"
 
+    # delete the output folder if it exists
+    if os.path.exists("files/output/"):
+        for file in os.listdir("files/output/"):
+            os.remove(os.path.join("files/output/", file))
+        os.rmdir("files/output/")
+
     # Clear the input directory to ensure a clean start
-    clear_input_directory(input_dir)
+    prepare_input_directory(input_dir)
 
     # Generate 'n' copies of each file from the raw directory into the input directory
     generate_file_copies(n, raw_dir, input_dir)
@@ -115,4 +121,7 @@ def run_experiment(n):
     # Print the total execution time
     print(f"Tiempo de ejecución: {end_time - start_time:.2f} segundos")
 
-run_experiment(10000)
+
+if __name__ == "__main__":
+
+    run_experiment(10000)
